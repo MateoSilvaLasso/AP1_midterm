@@ -19,7 +19,18 @@ public class CrosswordController {
 	 * the initial state of a crossword puzzle
 	 */
 	public void initCrossword(String[][] puzzle) {
-		
+		crossword = new Cell[4][4];
+		int p=1;
+		for(int i=0;i<puzzle.length; i++){
+			for(int j=0; j<puzzle[0].length; j++){
+				if(puzzle[i][j]==" "){
+					crossword[i][j]= new Cell(CellType.BLACK, puzzle[i][j], 0);
+				}else if(puzzle[i][j]!=" "){
+					crossword[i][j]= new Cell(CellType.CLOSED, puzzle[i][j], p);
+					p++;
+				}
+			}
+		}
 		
 	}
 	/**
@@ -50,9 +61,24 @@ public class CrosswordController {
 	 * @param letter
 	 * @return
 	 */
-	public String getHint(String letter) {
-		
-		return null;
+	public String getHint(String letter){
+		String out="";
+		boolean flag=true;
+		for(int i=0; i<crossword.length && flag; i++){
+			for(int j=0; j<crossword[0].length && flag; j++){
+				if(crossword[i][j]!=null && crossword[i][j].getLetter().equals(letter) && crossword[i][j].getState()==CellType.CLOSED){
+					out="la tiene papu en la casilla "+crossword[i][j].getNumber();
+					crossword[i][j].setState(CellType.OPEN);
+					flag=false;
+				}
+			}
+		}
+
+		if(out.equals("")){
+			return "no la tiene o_o";
+		}else{
+			return out;
+		}
 	}
 	
 	/**
@@ -92,7 +118,7 @@ public class CrosswordController {
 						numbers += " ---  ";
 						letters += " ---  ";
 						
-					}else {
+					}else{
 						numbers += " "+actual.getNumber() +"   ";
 						letters += "    "+ actual.getLetter() + " ";
 					}
