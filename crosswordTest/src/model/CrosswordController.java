@@ -87,9 +87,23 @@ public class CrosswordController {
 	 * @param num
 	 * @return
 	 */
-	public String evaluateCell(String letter, int num) {
+	public String evaluateCell(String letter, int num){
+		String out="";
+		//int i=-1;
+		for(int i=0; i<crossword.length; i++){
+			for(int j=0; j<crossword[0].length; j++){
+				if(crossword[i][j].getNumber()==num && crossword[i][j].getLetter().equalsIgnoreCase(letter)){
+					out= "La letra "+letter+" si esta en la casilla "+num+" ;D";
+				}
+			}
+		}
+
+		if(out.equals("")){
+			return "La letra "+letter+" no esta en la casilla "+num;
+		}else{
+			return out;
+		}
 		
-		return null;
 	}
 	
 	public String showCrossword() {
